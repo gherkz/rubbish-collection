@@ -1,0 +1,102 @@
+# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+#
+# Base configuration for mkdocs which configures plugins, etc. The top-level mkdocs.yml is intended
+# to provide project-specific values. Should a project have very specific needs, it may need to copy
+# the entirety of this config into mkdocs.yml.
+edit_uri: "-/edit/main/docs/"
+repo_name: "Developer Hub Project"
+
+theme:
+  name: material
+  features:
+    - content.action.edit
+    - content.code.copy
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.tracking
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+
+watch:
+  - .
+
+plugins:
+  - section-index
+  - gen-files:
+      scripts:
+        - docs/scripts/gen-reference-nav.py
+  - search
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          import:
+            - https://docs.python.org/3/objects.inv
+            - https://python-markdown.github.io/objects.inv
+            - https://docs.djangoproject.com/en/stable/_objects/
+            - https://faker.readthedocs.io/en/latest/objects.inv
+          options:
+            docstring_options:
+              ignore_init_summary: true
+            docstring_section_style: list
+            docstring_style: google
+            heading_level: 1
+            inherited_members: true
+            members_order: source
+            merge_init_into_class: true
+            modernize_annotations: true
+            parameter_headings: true
+            separate_signature: true
+            show_if_no_docstring: true
+            show_root_full_path: false
+            show_root_heading: true
+            show_source: false
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            signature_crossrefs: true
+            summary: true
+
+markdown_extensions:
+  # Support notes, warnings, etc.
+  - admonition
+
+  # Allow the use of Pygments to do code highlighting. Do not attempt to guess
+  # the language if we don't specify.
+  - codehilite:
+      guess_lang: false
+
+  # Provide permalinks to help with linking to sections.
+  - toc:
+      permalink: true
+
+  # Allow for inline highlighting of code blocks.
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+
+  # Allow code blocks to be nested inside other elements
+  - pymdownx.superfences
+
+  - pymdownx.snippets

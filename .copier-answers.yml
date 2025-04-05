@@ -1,0 +1,23 @@
+# Changes here will be overwritten by Copier
+_commit: 2.10.2
+_src_path: https://gitlab.developers.cam.ac.uk/uis/devops/webapp-boilerplate.git
+api_module: api
+api_name: rubbish-collection API
+api_slug: api
+application_module: rubbish_collection
+application_name: rubbish-collection
+application_slug: rubbish-collection
+include_api: true
+include_mit_license: false
+include_ui: true
+max_line_length: 99
+project_module: rubbish_collection_project
+project_name: rubbish-collection
+project_repo: https://github.com/gherkz/rubbish-collection.git
+project_slug: rubbish-collection
+python_version: '3.12'
+respect_x_forward_header: false
+secret_key: rubbish-collection-this-is-not-a-secret
+ui_module: ui
+ui_name: rubbish-collection UI
+ui_slug: ui

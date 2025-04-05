@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+
+# It is intended that this file contain *only* product-specific configuration such as the site
+# name, upstream GitLab repository and navigation. This allows copier to "own" updates to
+# docs/mkdocs-base.yml as our templates evolve. If one needs to "escape" from this, copy the
+# contents of docs/mkdocs-base.yml into this file and then remove docs/mkdocs-base.yml. Bear in
+# mind that you may lose some of copier's ability to track boilerplate changes.
+INHERIT: "docs/mkdocs-base.yml"
+
+site_name: "rubbish-collection"
+repo_url: "https://github.com/gherkz/rubbish-collection.git"
+
+nav:
+  - Home: index.md
+  - API reference: reference/

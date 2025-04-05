@@ -1,0 +1,24 @@
+# This file lists source files which should be excluded from the automatically generated reference
+# documentation. It is in .gitignore format.
+
+# Any Python files shipped as part of the documentation itself.
+docs/
+
+# Django migrations
+*/migrations/
+
+# Any tests and test-related files.
+*/tests/
+*/test/
+tests/
+test/
+test_*.py
+conftest.py
+
+# Standard Django files which are not interesting enough to document.
+manage.py
+wsgi.py
+asgi.py
+
+# Gunicorn configuration.
+gunicornconf.py

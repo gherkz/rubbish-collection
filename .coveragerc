@@ -1,0 +1,10 @@
+[run]
+omit=
+	.tox/*
+	setup.py
+	manage.py
+	*/test/*
+	*/tests/*
+	rubbish_collection_project/settings/*
+	rubbish_collection_project/wsgi.py
+	.tox/
