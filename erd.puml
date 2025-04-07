@@ -1,0 +1,87 @@
+@startuml Database Structure
+
+entity Addresses {
+    * id : UUID <<PK>>
+    --
+    street : String
+    city : String
+    postcode : String
+    council : String
+}
+
+note left of Addresses
+    Entity for storing address details
+
+    UNIQUE(street, city, postcode)
+
+    ~32M rows
+    ~3GB data
+end note
+
+entity RubbishTypes {
+    * id : UUID <<PK>>
+    --
+    name : String
+}
+
+note top of RubbishTypes
+    Entity for the different types of rubbish
+    (e.g. refuse, glass, recycling, food waste,
+    garden waste etc)
+end note
+
+entity CollectionSchedules {
+    * id : UUID <<PK>>
+    --
+    address_id : UUID <<FK>>
+    rubbish_type_id : UUID <<FK>>
+    frequency : String
+    start_date : Date
+    import_date : Date
+}
+
+note left of CollectionSchedules
+    Entity for standard collection schedules
+
+    Frequency should be a single character to
+    reduce storage costs
+
+    ~32M rows
+    ~2GB data
+end note
+
+entity ExceptionReasons {
+    * id : UUID <<PK>>
+    --
+    reason : String
+}
+
+note top of ExceptionReasons
+    Entity for reasons why a schedule
+    might be changed (e.g. public holiday)
+end note
+
+entity Exceptions {
+    * id : UUID <<PK>>
+    --
+    collection_schedule_id : UUID <<FK>>
+    old_date : Date
+    new_date : Date
+    exception_reason_id : UUID <<FK>>
+}
+
+note left of Exceptions
+    Entity for changes to collection schedules.
+    Assuming an average of 3 changes to each
+    schedule over the following year.
+
+    ~108M rows
+    ~4GB data
+end note
+
+Addresses ||--o{ CollectionSchedules
+RubbishTypes ||--o{ CollectionSchedules
+CollectionSchedules ||--o{ Exceptions
+ExceptionReasons |o--o{ Exceptions
+
+@enduml

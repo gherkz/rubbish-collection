@@ -1,0 +1,29 @@
+@startuml Rubbish Collection Day System
+!include <C4/C4_Container>
+
+LAYOUT_WITH_LEGEND()
+
+Person(user, "User", "Person interested in finding out their rubbish collection day")
+System_Boundary(c1, "Rubbish Collection Day System") {
+    Container(frontend, "Single-Page Application", "Cloud Storage, Typescript, React", "Allows users to discover when their bins will next be collected")
+    Container(address_importer, "Address Import Service", "Cloud Scheduler, Cloud Run, Python, Django", "Imports list of addresses and local councils from AddressBase on a schedule")
+    ContainerDb(address_importer_db, "Database", "Spanner, Postgres", "Stores list of addresses that have already been imported")
+    Container(address_service, "Address Service", "Cloud Run, Python, Django, DRF", "Provides the functionality of the rubbish collection day system to the website")
+    ContainerDb(db, "Database", "Spanner, Postgres", "Stores rubbish collection days for addresses")
+    Container(rubbish_collection_day_importer, "Council Import Service", "Cloud Scheduler, Cloud Run, Python, Django", "Imports rubbish collection data from local council's systems")
+}
+
+System(addressbase, "AddressBase", "Supplies information about addresses")
+System(council, "Local Councils", "Supplies information on rubbish collection days")
+
+Rel(user, frontend, "Downloads web page", "HTTPS")
+Rel(frontend, address_service, "Requests rubbish collection days for a single address", "HTTPS")
+Rel(address_service, db, "Reads/writes rubbish collection day data", "PostgreSQL")
+Rel(address_importer, addressbase, "Requests address data")
+Rel(address_importer, address_service, "Stores address data")
+Rel(address_importer, rubbish_collection_day_importer, "Triggers data import for new addresses", "Pub/Sub, Cloud Storage")
+Rel(address_importer, address_importer_db, "Triggers data import for new addresses", "Pub/Sub, Cloud Storage")
+Rel(rubbish_collection_day_importer, council, "Requests rubbish collection day data", "REST, CSV, iCal, SQL")
+Rel(rubbish_collection_day_importer, address_service, "Stores rubbish collection day data", "Pub/Sub")
+Rel(rubbish_collection_day_importer, address_service, "Fetches lists of stale addresses", "Pub/Sub")
+@enduml
